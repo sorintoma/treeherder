@@ -151,12 +151,12 @@ export const alertBackfillResultVisual = {
   successful: {
     message: 'Sherlock: Backfilled Successfully',
     icon: faHourglassEnd,
-    color: 'green',
+    color: '#2da745',
   },
   failed: {
     message: 'Sherlock: Failled to backfill',
     icon: faHourglassEnd,
-    color: 'red',
+    color: '#dc3545',
   },
 };
 
