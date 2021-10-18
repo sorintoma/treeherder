@@ -540,9 +540,23 @@ li.pagination-active.active > button {
   opacity: 1;
 }
 
+.alert-docs {
+  display: flex;
+  flex-direction: column;
+}
+
 .alert-docs a:visited,
 .legend-docs a:visited {
   color: #337ab7;
+}
+
+.alert-docs .docs-link {
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  float: left;
+  text-overflow: ellipsis;
+  width: 250px;
 }
 
 .disabled-button {

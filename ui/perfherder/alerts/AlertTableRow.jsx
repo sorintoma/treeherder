@@ -225,7 +225,11 @@ export default class AlertTableRow extends React.Component {
               className="alert-docs"
               data-testid={`alert ${alert.id} title`}
             >
-              <a data-testid="docs" href={perfdocs.documentationURL}>
+              <a
+                data-testid="docs"
+                href={perfdocs.documentationURL}
+                className="docs-link"
+              >
                 {suite}
               </a>{' '}
               {!duplicatedName && test}
