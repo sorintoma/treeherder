@@ -370,6 +370,19 @@ th {
   padding: 8px;
 }
 
+.alert-summary-header-element h6 {
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  float: left;
+  text-overflow: ellipsis;
+  width: 600px;
+}
+
+/* .alert-summary-header-element h6 :hover {
+  color: red;
+} */
+
 .alert-summary .compare-table {
   margin-bottom: 0;
 }

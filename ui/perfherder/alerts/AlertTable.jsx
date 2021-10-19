@@ -272,6 +272,7 @@ export default class AlertTable extends React.Component {
       bugTemplate,
       modifyAlert,
       performanceTags,
+      location,
     } = this.props;
     const {
       alertSummary,
@@ -301,7 +302,11 @@ export default class AlertTable extends React.Component {
                 <Row className="px-0 max-width-default">
                   <Col
                     xs={10}
-                    className="text-left alert-summary-header-element"
+                    className={
+                      location.search.includes('?id')
+                        ? 'text-left'
+                        : 'text-left alert-summary-header-element'
+                    }
                   >
                     <FormGroup check className="d-inline-flex">
                       <SelectAlertsDropdown
