@@ -41,11 +41,11 @@ export default class AlertHeaderTitle extends React.Component {
               </Badge>
               Alert #{alertSummary.id} - {alertSummary.repository} -{' '}
               {getTitle(alertSummary)}{' '}
-              <FontAwesomeIcon
-                icon={faExternalLinkAlt}
-                className="icon-superscript"
-              />
             </h6>
+            <FontAwesomeIcon
+              icon={faExternalLinkAlt}
+              className="icon-superscript icon-link"
+            />
           </Link>
           <Clipboard
             text={`${alertSummary.id}`}
