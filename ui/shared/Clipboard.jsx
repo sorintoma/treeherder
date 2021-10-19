@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboard } from '@fortawesome/free-regular-svg-icons';
+import {
+  faClipboard,
+  faCheckCircle,
+} from '@fortawesome/free-regular-svg-icons';
 import { Button } from 'reactstrap';
 
 const Clipboard = ({ description, text, outline, visible, color }) => {
@@ -30,7 +33,7 @@ const Clipboard = ({ description, text, outline, visible, color }) => {
       outline={outline}
     >
       {copied ? (
-        <div className="copy-to-clipboard">{description} copied</div>
+        <FontAwesomeIcon icon={faCheckCircle} />
       ) : (
         <FontAwesomeIcon icon={faClipboard} />
       )}
