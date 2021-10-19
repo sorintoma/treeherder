@@ -465,6 +465,17 @@ button:disabled {
   margin-left: 2px;
 }
 
+.error-box-container {
+  display: flex;
+  justify-content: center;
+}
+
+.error-box-container .error-box {
+  position: fixed;
+  top: 7%;
+  z-index: 5;
+}
+
 /* for use with global max-width-default style */
 .max-width-row-text {
   max-width: 1194px;

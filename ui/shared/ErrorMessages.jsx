@@ -30,14 +30,14 @@ class ErrorMessages extends React.PureComponent {
 
     const messages = errorMessages.length ? errorMessages : [failureMessage];
     return (
-      <div>
+      <div className="error-box-container">
         {messages.map((message) => (
           <Alert
             color="danger"
             isOpen={visible}
             toggle={() => this.setState({ visible: !visible })}
             key={message}
-            className="text-center"
+            className="text-center error-box"
           >
             {message}
           </Alert>
