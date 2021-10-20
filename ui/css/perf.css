@@ -379,9 +379,9 @@ th {
   width: 600px;
 }
 
-/* .alert-summary-header-element h6 :hover {
-  color: red;
-} */
+.alert-summary-header-element a :hover {
+  text-decoration: underline;
+}
 
 .alert-summary .compare-table {
   margin-bottom: 0;
