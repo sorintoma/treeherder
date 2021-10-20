@@ -477,7 +477,7 @@ button:disabled {
 .error-box-container .error-box {
   position: fixed;
   top: 7%;
-  z-index: 5;
+  z-index: 901;
 }
 
 /* for use with global max-width-default style */
