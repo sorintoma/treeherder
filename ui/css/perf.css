@@ -100,6 +100,7 @@ h1 {
   color: #fff;
   border-radius: 5px;
   padding: 10px 15px;
+  width: 285px;
 }
 .graph-tooltip.locked .body {
   background: rgba(0, 0, 0, 0.9);
