@@ -414,6 +414,10 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.test-name-container {
+  word-break: break-all;
+}
+
 /* Various styles for individual alerts ("changes" in UI) */
 .alert-selects .form-group {
   margin-right: 6px;

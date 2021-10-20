@@ -214,7 +214,7 @@ export default class AlertTableRow extends React.Component {
     const hasDocumentation = perfdocs.hasDocumentation();
     const duplicatedName = suite === test;
     return (
-      <div>
+      <div className="test-name-container">
         <div
           className={textEffect}
           id={`alert ${alert.id} title`}
@@ -249,7 +249,7 @@ export default class AlertTableRow extends React.Component {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                · subtests
+                <div>· subtests</div>
               </a>
             )}
           </span>
