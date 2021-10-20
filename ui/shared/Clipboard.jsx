@@ -33,7 +33,7 @@ const Clipboard = ({ description, text, outline, visible, color }) => {
       outline={outline}
     >
       {copied ? (
-        <FontAwesomeIcon icon={faCheckCircle} />
+        <FontAwesomeIcon icon={faCheckCircle} color="#2da745" />
       ) : (
         <FontAwesomeIcon icon={faClipboard} />
       )}
