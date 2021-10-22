@@ -30,6 +30,7 @@ export default class AlertHeaderTitle extends React.Component {
       >
         <Col className="d-flex align-items-start p-0">
           <Link
+            target="_blank"
             className="text-dark mr-1"
             to={`./alerts?id=${alertSummary.id}&hideDwnToInv=0`}
             id={`alert summary ${alertSummary.id.toString()} title`}
