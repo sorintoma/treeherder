@@ -139,14 +139,17 @@ export const alertBackfillResultVisual = {
   preliminary: {
     message: 'Sherlock: Not backfilled',
     icon: faHourglass,
+    color: '#000000',
   },
   readyForProcessing: {
     message: 'Sherlock: Soon to be backfilled',
     icon: faHourglassStart,
+    color: '#000000',
   },
   backfilled: {
     message: 'Sherlock: Backfilling in progress',
     icon: faHourglassHalf,
+    color: '#000000',
   },
   successful: {
     message: 'Sherlock: Backfilled Successfully',
