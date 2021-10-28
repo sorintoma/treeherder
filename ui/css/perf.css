@@ -371,7 +371,7 @@ th {
   padding: 8px;
 }
 
-.alert-summary-header-element h6 {
+.alert-summary-header-element .short-title {
   white-space: nowrap;
   overflow: hidden;
   display: block;
@@ -395,6 +395,11 @@ th {
 
 .alert-summary .card-body p {
   margin: 0 0 10px;
+}
+
+.alert-title-action-container {
+  display: flex;
+  margin-left: 250px;
 }
 
 .dropdown {

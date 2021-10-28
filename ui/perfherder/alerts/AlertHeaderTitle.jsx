@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Badge } from 'reactstrap';
 
 import Clipboard from '../../shared/Clipboard';
+import ShowMore from '../../shared/ShowMore';
 import { getFrameworkName, getTitle } from '../perf-helpers/helpers';
 
 export default class AlertHeaderTitle extends React.Component {
@@ -13,6 +14,7 @@ export default class AlertHeaderTitle extends React.Component {
     super(props);
     this.state = {
       clipboardVisible: false,
+      shortAlertName: true,
     };
   }
 
@@ -20,9 +22,15 @@ export default class AlertHeaderTitle extends React.Component {
     this.setState({ clipboardVisible: show });
   };
 
+  showAlertFullTitle = () => {
+    this.setState((prevState) => ({
+      shortAlertName: !prevState.shortAlertName,
+    }));
+  };
+
   render() {
     const { alertSummary, frameworks } = this.props;
-    const { clipboardVisible } = this.state;
+    const { clipboardVisible, shortAlertName } = this.state;
     return (
       <Row
         onMouseEnter={() => this.showClipboard(true)}
@@ -36,7 +44,7 @@ export default class AlertHeaderTitle extends React.Component {
             id={`alert summary ${alertSummary.id.toString()} title`}
             data-testid={`alert summary ${alertSummary.id.toString()} title`}
           >
-            <h6 className="font-weight-bold align-middle">
+            <h6 className={shortAlertName ? 'short-title' : 'long-title'}>
               <Badge className="mr-2">
                 {getFrameworkName(frameworks, alertSummary.framework)}
               </Badge>
@@ -48,12 +56,15 @@ export default class AlertHeaderTitle extends React.Component {
               className="icon-superscript icon-link"
             />
           </Link>
-          <Clipboard
-            text={`${alertSummary.id}`}
-            description="Alert ID"
-            visible={clipboardVisible}
-            color="transparent"
-          />
+          <div className="alert-title-action-container">
+            <Clipboard
+              text={`${alertSummary.id}`}
+              description="Alert ID"
+              visible={clipboardVisible}
+              color="transparent"
+            />
+            <ShowMore onClick={this.showAlertFullTitle} show={shortAlertName} />
+          </div>
         </Col>
       </Row>
     );
