@@ -584,11 +584,7 @@ li.pagination-active.active > button {
 }
 
 .alert-docs .docs-link {
-  white-space: nowrap;
-  overflow: hidden;
-  display: block;
-  float: left;
-  text-overflow: ellipsis;
+  word-break: break-all;
   width: 250px;
 }
 
