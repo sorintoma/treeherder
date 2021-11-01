@@ -49,7 +49,7 @@ export default class AlertHeaderTitle extends React.Component {
                 {getFrameworkName(frameworks, alertSummary.framework)}
               </Badge>
               Alert #{alertSummary.id} - {alertSummary.repository} -{' '}
-              {getTitle(alertSummary)}{' '}
+              {getTitle(alertSummary, shortAlertName)}{' '}
             </h6>
             <FontAwesomeIcon
               icon={faExternalLinkAlt}

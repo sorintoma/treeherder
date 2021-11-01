@@ -531,7 +531,7 @@ export const getFilledBugSummary = (alertSummary) => {
   return filledBugSummary;
 };
 
-export const getTitle = (alertSummary) => {
+export const getTitle = (alertSummary, shortAlertName) => {
   let title;
 
   // we should never include downstream alerts in the description
@@ -565,15 +565,36 @@ export const getTitle = (alertSummary) => {
     ...new Set(alertsInSummary.map((a) => getTestName(a.series_signature))),
   ]
     .sort()
+    .join(' ');
+
+  console.log(testInfo.split(' '));
+
+  const testSuite = testInfo
+    .split(' ')
+    .filter((test) => !test.includes('.html') && !test.includes('-'))
     .join(' / ');
-  title += ` ${testInfo}`;
-  // add platform info
-  const platformInfo = [
-    ...new Set(alertsInSummary.map((a) => a.series_signature.machine_platform)),
-  ]
-    .sort()
-    .join(', ');
-  title += ` (${platformInfo})`;
+
+  title += ` ${testSuite}`;
+
+  if (!shortAlertName) {
+    // add test names
+    const testNames = testInfo
+      .split(' ')
+      .filter((test) => test.includes('-') || test.includes('.html'))
+      .join(' / ');
+
+    title += ` ${testNames}`;
+    // add platform info
+    const platformInfo = [
+      ...new Set(
+        alertsInSummary.map((a) => a.series_signature.machine_platform),
+      ),
+    ]
+      .sort()
+      .join(', ');
+    title += ` (${platformInfo})`;
+  }
+
   return title;
 };
 

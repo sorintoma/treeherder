@@ -372,12 +372,22 @@ th {
 }
 
 .alert-summary-header-element .short-title {
-  white-space: nowrap;
+  /* white-space: nowrap;
   overflow: hidden;
   display: block;
   float: left;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
   width: 600px;
+}
+
+.alert-summary-header-element {
+  text-align: justify;
+}
+
+.alert-summary-header-element:after {
+  content: '';
+  display: inline-block;
+  width: 100%;
 }
 
 .alert-summary-header-element a :hover {
