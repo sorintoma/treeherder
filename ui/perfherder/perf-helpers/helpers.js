@@ -567,23 +567,23 @@ export const getTitle = (alertSummary, shortAlertName) => {
     .sort()
     .join(' ');
 
-  console.log(testInfo.split(' '));
-
   const testSuite = testInfo
     .split(' ')
     .filter((test) => !test.includes('.html') && !test.includes('-'))
     .join(' / ');
 
-  title += ` ${testSuite}`;
+  title = ` ${testSuite}`;
 
   if (!shortAlertName) {
-    // add test names
-    const testNames = testInfo
-      .split(' ')
-      .filter((test) => test.includes('-') || test.includes('.html'))
+    // add test info
+    const testInfo = [
+      ...new Set(alertsInSummary.map((a) => getTestName(a.series_signature))),
+    ]
+      .sort()
       .join(' / ');
 
-    title += ` ${testNames}`;
+    title = `${testInfo}`;
+
     // add platform info
     const platformInfo = [
       ...new Set(
