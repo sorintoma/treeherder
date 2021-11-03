@@ -73,6 +73,80 @@ export default class StatusDropdown extends React.Component {
     };
   };
 
+  getNumberOfNonWorkingDays(startDate, endDate) {
+    let count = 0;
+    const curDate = new Date(startDate.getTime());
+    while (curDate <= endDate) {
+      const dayOfWeek = curDate.getDay();
+      if (dayOfWeek === 0) {
+        count += 1;
+      } else if (dayOfWeek === 6) {
+        count += 2;
+      }
+      curDate.setDate(curDate.getDate() + 1);
+    }
+    return count;
+  }
+
+  updateAndClose = async (event, params, state) => {
+    event.preventDefault();
+    this.changeAlertSummary(params);
+    this.toggle(state);
+  };
+
+  fileBugAndClose = async (event, params, state) => {
+    event.preventDefault();
+    const culpritId = params.bug_number;
+    await this.fileBug(culpritId);
+    this.toggle(state);
+  };
+
+  changeAlertSummary = async (params) => {
+    const { alertSummary, updateState, updateViewState } = this.props;
+
+    const { data, failureStatus } = await updateAlertSummary(
+      alertSummary.id,
+      params,
+    );
+
+    if (failureStatus) {
+      return updateViewState({
+        errorMessages: [
+          `Failed to update alert summary ${alertSummary.id}: ${data}`,
+        ],
+      });
+    }
+    updateState({ alertSummary: data });
+  };
+
+  isResolved = (alertStatus) =>
+    alertStatus === 'backedout' ||
+    alertStatus === 'fixed' ||
+    alertStatus === 'wontfix';
+
+  isValidStatus = (alertStatus, status) =>
+    alertStatus === 'investigating' ||
+    (alertStatus !== status && this.isResolved(alertStatus));
+
+  toggle = (state) => {
+    this.setState((prevState) => ({
+      [state]: !prevState[state],
+    }));
+  };
+
+  copySummary = () => {
+    const { filteredAlerts, alertSummary, frameworks } = this.props;
+    const textualSummary = new TextualSummary(
+      frameworks,
+      filteredAlerts,
+      alertSummary,
+      true,
+    );
+    // can't access the clipboardData on event unless it's done from react's
+    // onCopy, onCut or onPaste props so using this workaround
+    navigator.clipboard.writeText(textualSummary.markdown).then(() => {});
+  };
+
   fileBug = async (culpritId) => {
     const {
       alertSummary,
@@ -157,64 +231,41 @@ export default class StatusDropdown extends React.Component {
     }
   };
 
-  copySummary = () => {
-    const { filteredAlerts, alertSummary, frameworks } = this.props;
-    const textualSummary = new TextualSummary(
-      frameworks,
-      filteredAlerts,
-      alertSummary,
-      true,
-    );
-    // can't access the clipboardData on event unless it's done from react's
-    // onCopy, onCut or onPaste props so using this workaround
-    navigator.clipboard.writeText(textualSummary.markdown).then(() => {});
-  };
+  calculateDueDate(created) {
+    const createdAt = new Date(created);
+    const dueDate = new Date(created);
+    dueDate.setDate(dueDate.getDate() + 3);
 
-  toggle = (state) => {
-    this.setState((prevState) => ({
-      [state]: !prevState[state],
-    }));
-  };
-
-  updateAndClose = async (event, params, state) => {
-    event.preventDefault();
-    this.changeAlertSummary(params);
-    this.toggle(state);
-  };
-
-  fileBugAndClose = async (event, params, state) => {
-    event.preventDefault();
-    const culpritId = params.bug_number;
-    await this.fileBug(culpritId);
-    this.toggle(state);
-  };
-
-  changeAlertSummary = async (params) => {
-    const { alertSummary, updateState, updateViewState } = this.props;
-
-    const { data, failureStatus } = await updateAlertSummary(
-      alertSummary.id,
-      params,
+    const numberOfNonWorkingDays = this.getNumberOfNonWorkingDays(
+      createdAt,
+      dueDate,
     );
 
-    if (failureStatus) {
-      return updateViewState({
-        errorMessages: [
-          `Failed to update alert summary ${alertSummary.id}: ${data}`,
-        ],
-      });
+    dueDate.setDate(
+      numberOfNonWorkingDays !== 0
+        ? dueDate.getDate() + numberOfNonWorkingDays
+        : dueDate.getDate(),
+    );
+    return dueDate;
+  }
+
+  renderDueDateCountdown(createdAt) {
+    const now = new Date(Date.now());
+    const dueDate = this.calculateDueDate(createdAt);
+    const differenceInTime = dueDate.getTime() - now.getTime();
+    let differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
+
+    if (now >= dueDate) {
+      return <p className="due-date-overdue">Overdue</p>;
     }
-    updateState({ alertSummary: data });
-  };
 
-  isResolved = (alertStatus) =>
-    alertStatus === 'backedout' ||
-    alertStatus === 'fixed' ||
-    alertStatus === 'wontfix';
-
-  isValidStatus = (alertStatus, status) =>
-    alertStatus === 'investigating' ||
-    (alertStatus !== status && this.isResolved(alertStatus));
+    if (differenceInDays >= 4) {
+      differenceInDays = 3;
+    } else if (differenceInDays === 0) {
+      return <p className="due-date-today">Today</p>;
+    }
+    return <p className="due-date-ok">{differenceInDays} working days</p>;
+  }
 
   render() {
     const { alertSummary, user, issueTrackers, performanceTags } = this.props;
@@ -404,6 +455,16 @@ export default class StatusDropdown extends React.Component {
               </React.Fragment>
             )}
           </DropdownMenu>
+          <div>
+            {alertStatus === 'untriaged' ? (
+              <div className="due-date-container">
+                <h5>Due date</h5>
+                {this.renderDueDateCountdown(alertSummary.created)}
+              </div>
+            ) : (
+              ''
+            )}
+          </div>
         </UncontrolledDropdown>
       </React.Fragment>
     );

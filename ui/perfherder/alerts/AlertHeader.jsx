@@ -42,7 +42,7 @@ const AlertHeader = ({
     <Container>
       <AlertHeaderTitle alertSummary={alertSummary} frameworks={frameworks} />
       <Row className="font-weight-normal">
-        <Col className="p-0" xs="auto">
+        <Col className="p-0 push-date" xs="auto">
           {toMercurialDateStr(alertSummaryDatetime)}
         </Col>
         <Col className="p-0" xs="auto">

@@ -36,7 +36,7 @@ export default class AlertHeaderTitle extends React.Component {
         onMouseEnter={() => this.showClipboard(true)}
         onMouseLeave={() => this.showClipboard(false)}
       >
-        <Col className="d-flex align-items-start p-0">
+        <Col className="d-flex align-items-start p-0 alert-title-container">
           <Link
             target="_blank"
             className="text-dark mr-1"
@@ -44,7 +44,7 @@ export default class AlertHeaderTitle extends React.Component {
             id={`alert summary ${alertSummary.id.toString()} title`}
             data-testid={`alert summary ${alertSummary.id.toString()} title`}
           >
-            <h6 className={shortAlertName ? 'short-title' : 'long-title'}>
+            <h6 className="long-title">
               <Badge className="mr-2">
                 {getFrameworkName(frameworks, alertSummary.framework)}
               </Badge>
