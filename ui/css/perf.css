@@ -502,6 +502,10 @@ button:disabled {
   z-index: 901;
 }
 
+.error-box-container .error-box button {
+  top: -5px;
+}
+
 /* for use with global max-width-default style */
 .max-width-row-text {
   max-width: 1194px;
