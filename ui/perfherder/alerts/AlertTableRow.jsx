@@ -434,7 +434,7 @@ export default class AlertTableRow extends React.Component {
             this.getTitleText(alert, alertStatus)
           )}
         </td>
-        <td className="table-width-lg">
+        <td className="table-width-lg platform-container">
           <AlertTablePlatform
             platform={alert.series_signature.machine_platform}
           />

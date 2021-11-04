@@ -661,3 +661,11 @@ li.pagination-active.active > button {
 .due-date-container .due-date-overdue {
   color: #dc3545;
 }
+
+.platform-container {
+  line-height: 1.5em;
+  height: 3em;
+  overflow: hidden;
+  width: 200px;
+  max-width: 200px;
+}
