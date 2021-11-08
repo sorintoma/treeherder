@@ -10,7 +10,10 @@ import {
 } from 'reactstrap';
 import template from 'lodash/template';
 import templateSettings from 'lodash/templateSettings';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
 
+import SimpleTooltip from '../../shared/SimpleTooltip';
 import {
   getFrameworkName,
   getFilledBugSummary,
@@ -74,10 +77,14 @@ export default class StatusDropdown extends React.Component {
   };
 
   getNumberOfNonWorkingDays(startDate, endDate) {
+    console.log(startDate, 'start date');
+    console.log(endDate, 'end date');
     let count = 0;
     const curDate = new Date(startDate.getTime());
+    console.log(curDate, 'cur date');
     while (curDate <= endDate) {
       const dayOfWeek = curDate.getDay();
+      console.log(dayOfWeek);
       if (dayOfWeek === 0) {
         count += 1;
       } else if (dayOfWeek === 6) {
@@ -85,6 +92,7 @@ export default class StatusDropdown extends React.Component {
       }
       curDate.setDate(curDate.getDate() + 1);
     }
+    console.log(count);
     return count;
   }
 
@@ -236,6 +244,8 @@ export default class StatusDropdown extends React.Component {
     const dueDate = new Date(created);
     dueDate.setDate(dueDate.getDate() + 3);
 
+    console.log(createdAt);
+
     const numberOfNonWorkingDays = this.getNumberOfNonWorkingDays(
       createdAt,
       dueDate,
@@ -254,17 +264,21 @@ export default class StatusDropdown extends React.Component {
     const dueDate = this.calculateDueDate(createdAt);
     const differenceInTime = dueDate.getTime() - now.getTime();
     let differenceInDays = Math.round(differenceInTime / (1000 * 3600 * 24));
+    console.log(dueDate, 'end date');
+    console.log(now, 'now');
 
     if (now >= dueDate) {
-      return <p className="due-date-overdue">Overdue</p>;
+      return 'Overdue';
     }
-
-    if (differenceInDays >= 4) {
+    console.log(differenceInDays, 'initial difference in days');
+    if (differenceInDays >= 3) {
       differenceInDays = 3;
     } else if (differenceInDays === 0) {
-      return <p className="due-date-today">Today</p>;
+      return 'Today';
     }
-    return <p className="due-date-ok">{differenceInDays} working days</p>;
+
+    console.log(differenceInDays, 'difference in days');
+    return `${differenceInDays} working days`;
   }
 
   render() {
@@ -279,6 +293,15 @@ export default class StatusDropdown extends React.Component {
 
     const alertStatus = getStatus(alertSummary.status);
     const alertSummaryActiveTags = alertSummary.performance_tags || [];
+
+    const dueDate = this.renderDueDateCountdown(alertSummary.created);
+    let dueDateClass = 'due-date-ok';
+
+    if (dueDate === 'Overdue') {
+      dueDateClass = 'due-date-overdue';
+    } else if (dueDate === 'Today') {
+      dueDateClass = 'due-date-today';
+    }
 
     return (
       <React.Fragment>
@@ -352,7 +375,7 @@ export default class StatusDropdown extends React.Component {
           performanceTags={performanceTags}
           updateAndClose={this.updateAndClose}
         />
-        <UncontrolledDropdown tag="span">
+        <UncontrolledDropdown tag="span" className="status-drop-down">
           <DropdownToggle className="btn-xs" color="darker-secondary" caret>
             {getStatus(alertSummary.status)}
           </DropdownToggle>
@@ -458,8 +481,22 @@ export default class StatusDropdown extends React.Component {
           <div>
             {alertStatus === 'untriaged' ? (
               <div className="due-date-container">
-                <h5>Due date</h5>
-                {this.renderDueDateCountdown(alertSummary.created)}
+                <div className="clock-container">
+                  <SimpleTooltip
+                    text={
+                      <FontAwesomeIcon
+                        icon={faClock}
+                        className={dueDateClass}
+                      />
+                    }
+                    tooltipText={
+                      <div>
+                        <h5>Triage due date:</h5>
+                        {dueDate}
+                      </div>
+                    }
+                  />
+                </div>
               </div>
             ) : (
               ''

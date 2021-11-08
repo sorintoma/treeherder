@@ -31,6 +31,7 @@ export default class AlertHeaderTitle extends React.Component {
   render() {
     const { alertSummary, frameworks } = this.props;
     const { clipboardVisible, shortAlertName } = this.state;
+
     return (
       <Row
         onMouseEnter={() => this.showClipboard(true)}
